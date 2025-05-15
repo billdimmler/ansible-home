@@ -1,4 +1,4 @@
 # ansible-home
-anisble for home servers
+Ansible for home servers
 
-anisble.dimmler.cloud
+ansible.dimmler.cloud

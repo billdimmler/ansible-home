@@ -36,4 +36,4 @@
       ansible.builtin.dnf:
         name: mariadb
         state: latest
-      when: ansible_distribution == "Fedora"
+      when: ansible_distribution == "Fedora Server"

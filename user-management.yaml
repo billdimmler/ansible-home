@@ -1,0 +1,39 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+
+   - name: install updates for fedora
+     tags: always
+     ansible.builtin.dnf:
+       update_only: yes
+       update_cache: yes
+     when: ansible_distribution == "Fedora"
+
+   - name: install updates for ubuntu
+     tags: always
+     ansible.builtin.apt:
+       upgrade: dist
+       update_cache: yes
+     when: ansible_distribution == "Ubuntu"
+
+   - name: create user
+     tags: always
+     ansible.builtin.user:
+       name: sally
+       groups: root
+
+   - name: add sudoers file for sally
+     tags: always
+     ansible.builtin.copy:
+       src: sudoer_sally
+       dest: /etc/sudoers.d/sally
+       owner: root
+       group: root
+       mode: 0440
+
+   - name: add ssh key for sally user
+     tags: always
+     ansible.builtin.authorized_key:
+       user: sally
+       key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINVHhkMYF2rs1MnuowYocfPoSEr0JIAOzYFsGdVfNm2r bill@BillsZEN"

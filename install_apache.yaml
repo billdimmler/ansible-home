@@ -18,6 +18,5 @@
       name:
         - httpd
         - php
-      use_backend: dnf4
       state: latest
     when: ansible_os_family== "RedHat"

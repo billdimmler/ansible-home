@@ -1,0 +1,4 @@
+apache_package: httpd
+apache_service: httpd
+password_auth: "yes"
+ssh_template_file: ssh_config_fedora.j2

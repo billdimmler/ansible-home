@@ -1,0 +1,70 @@
+- name: install apache on web servers (ubuntu)
+  tags: apache,ubuntu
+  ansible.builtin.apt:
+    name:
+      - apache2
+      - libapache2-mod-php
+  when: ansible_os_family == "Debian"
+
+- name: install apache on web servers (fedora)
+  tags: apache,fedora
+  ansible.builtin.dnf:
+    name: httpd
+  when: ansible_os_family == "Redhat"
+
+- name: ensure apache is running (ubuntu)
+  tags: apache,ubuntu
+  ansible.builtin.service:
+    name: apache2
+    state: started
+  when: ansible_os_family == "Debian"
+
+- name: ensure apache is running (fedora)
+  tags: apache,fedora
+  ansible.builtin.service:
+    name: httpd
+    state: started
+  when: ansible_os_family == "Redhat"
+
+- name: change email address for admin
+  tags: apache,fedora
+  ansible.builtin.lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin poppy@puppyplayground.com
+  when: ansible_os_family == "RedHat"
+  register: httpd
+
+- name: restart httpd (fedora)
+  tags: apache,fedora
+  ansible.builtin.service:
+    name: httpd
+    state: restarted
+  when: httpd.changed
+
+- name: change email address for admin
+  tags: apache,ubuntu
+  ansible.builtin.lineinfile:
+      path: /etc/apache2/apache2.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin poppy@puppyplayground.com 
+  when: ansible_os_family == "Debian"
+  register: apache2
+
+- name: restart apache
+  tags: apache,ubuntu
+  ansible.builtin.service:
+    name: apache2
+    state: restarted
+  when: apache2.changed
+
+- name: copy html file for default_site
+  tags: apache,ubuntu,fedora,httpd
+  ansible.builtin.copy:
+    src: default_site.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: 0664
+    
+

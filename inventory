@@ -8,3 +8,8 @@ ubuntu-2504 apache_package=apache2 php_package=libapache2-mod-php
 [db_servers]
 fedserver-42 apache_package=httpd php_package=php
 ubuntu-2504 apache_package=apache2 php_package=libapache2-mod-php
+
+[apache]
+fedserver-42 apache_package=httpd php_package=php
+ubuntu-2504 apache_package=apache2 php_package=libapache2-mod-php
+

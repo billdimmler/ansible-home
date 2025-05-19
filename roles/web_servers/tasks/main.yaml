@@ -1,28 +1,13 @@
-- name: install apache on web servers (ubuntu)
-  tags: apache,ubuntu
-  ansible.builtin.apt:
+- name: install apache on web servers 
+  tags: apache
+  ansible.builtin.package:
     name:
-      - apache2
-      - libapache2-mod-php
-  when: ansible_os_family == "Debian"
+      - "{{ apache_package }}"
 
-- name: install apache on web servers (fedora)
-  tags: apache,fedora
-  ansible.builtin.dnf:
-    name: httpd
-  when: ansible_os_family == "Redhat"
-
-- name: ensure apache is running (ubuntu)
-  tags: apache,ubuntu
+- name: ensure apache is running 
+  tags: apache
   ansible.builtin.service:
-    name: apache2
-    state: started
-  when: ansible_os_family == "Debian"
-
-- name: ensure apache is running (fedora)
-  tags: apache,fedora
-  ansible.builtin.service:
-    name: httpd
+    name: "{{ apache_service }}"
     state: started
   when: ansible_os_family == "Redhat"
 
@@ -31,32 +16,18 @@
   ansible.builtin.lineinfile:
       path: /etc/httpd/conf/httpd.conf
       regexp: '^ServerAdmin'
-      line: ServerAdmin poppy@puppyplayground.com
+      line: ServerAdmin poppyss@puppyplayground.pup
   when: ansible_os_family == "RedHat"
-  register: httpd
-
-- name: restart httpd (fedora)
-  tags: apache,fedora
-  ansible.builtin.service:
-    name: httpd
-    state: restarted
-  when: httpd.changed
+  notify: restart_apache
 
 - name: change email address for admin
   tags: apache,ubuntu
   ansible.builtin.lineinfile:
       path: /etc/apache2/apache2.conf
       regexp: '^ServerAdmin'
-      line: ServerAdmin poppy@puppyplayground.com 
+      line: ServerAdmin poppyss@puppyplayground.pup 
   when: ansible_os_family == "Debian"
-  register: apache2
-
-- name: restart apache
-  tags: apache,ubuntu
-  ansible.builtin.service:
-    name: apache2
-    state: restarted
-  when: apache2.changed
+  notify: restart_apache
 
 - name: copy html file for default_site
   tags: apache,ubuntu,fedora,httpd

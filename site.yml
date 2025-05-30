@@ -1,33 +1,37 @@
 ---
 - hosts: all
+  name: Run pre_tasks
   become: true
   pre_tasks:
 
-  - name: install updates for fedora
-    tags: always
-    ansible.builtin.dnf:
-      update_only: yes
-      update_cache: yes
-    when: ansible_distribution == "Fedora"
+    - name: Install updates for fedora
+      tags: always
+      ansible.builtin.dnf:
+        update_only: true
+        update_cache: true
+      when: ansible_distribution == "Fedora"
 
-  - name: install updates for Ubuntu
-    tags: always
-    ansible.builtin.apt:
-      upgrade: dist
-      update_cache: yes
-    when: ansible_distribution == "Ubuntu"
+    - name: Install updates for Ubuntu
+      tags: always
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
 
 - hosts: all
+  name: Apply base
   become: true
   roles:
     - base
 
 - hosts: db_servers
+  name: Apply db role
   become: true
   roles:
     - db_servers
 
 - hosts: web_servers
+  name: Apply web_servers role
   become: true
   roles:
     - web_servers

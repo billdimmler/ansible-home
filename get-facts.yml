@@ -1,0 +1,6 @@
+---
+- name: Get ansible facts
+  hosts: db_servers
+  tasks:
+    - debug:
+        var: ansible_facts

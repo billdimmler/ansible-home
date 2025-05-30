@@ -1,4 +1,4 @@
-- name: install mariadb package on db servers
+- name: Install mariadb package on db servers
   ansible.builtin.dnf:
     name: mariadb
     state: latest

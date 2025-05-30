@@ -1,34 +1,34 @@
-- name: create user
+- name: Create user
   tags: always
   ansible.builtin.user:
     name: sally
     groups: root
 
-- name: add sudoers file for sally
+- name: Add sudoers file for sally
   tags: always
   ansible.builtin.copy:
     src: sudoer_sally
     dest: /etc/sudoers.d/sally
     owner: root
     group: root
-    mode: 0440
+    mode: "0440"
 
-- name: add ssh key for sally user
+- name: Add ssh key for sally user
   tags: always
   ansible.builtin.authorized_key:
     user: sally
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINVHhkMYF2rs1MnuowYocfPoSEr0JIAOzYFsGdVfNm2r bill@BillsZEN"
 
-- name: configure ssh based on template
+- name: Configure ssh based on template
   ansible.builtin.template:
     src: "{{ ssh_template_file }}"
     dest: /etc/ssh/ssh_config
     owner: root
     group: root
-    mode: 0664
+    mode: "0664"
   notify: restart_sshd
 
-- name: install ansible
+- name: Install ansible
   tags: always
   ansible.builtin.package:
     name: ansible-core

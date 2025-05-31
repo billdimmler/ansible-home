@@ -23,4 +23,4 @@
   become: true
   roles:
     - base
-    - ansible_role
+     ansible_role

@@ -1,4 +1,4 @@
-- name: install ansible
+- name: Install ansible
   tags: always
   ansible.builtin.package:
     name: ansible-core

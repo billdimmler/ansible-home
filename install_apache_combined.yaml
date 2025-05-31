@@ -1,12 +1,13 @@
 ---
 - hosts: all
+  name: Install apache2 and php
   become: true
   tasks:
 
-  - name: install apache2 package and PHP
-    ansible.builtin.package:
-      update_cache: yes
-      name:
-        - "{{ apache_package }}"
-        - "{{ php_package }}"
-      state: latest
+    - name: Install apache2 package and PHP
+      ansible.builtin.package:
+        update_cache: true
+        name:
+          - "{{ apache_package }}"
+          - "{{ php_package }}"
+        state: latest

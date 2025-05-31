@@ -1,22 +1,23 @@
 ---
 - hosts: all
+  name: Install apache2
   become: true
   tasks:
 
-  - name: install apache2 package and PHP
-    ansible.builtin.apt:
-      update_cache: yes
-      name:
-        - apache2
-        - libapache2-mod-php
-      state: latest
-    when: ansible_os_family == "Debian"
+    - name: Install apache2 package and PHP
+      ansible.builtin.apt:
+        update_cache: true
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: latest
+      when: ansible_os_family == "Debian"
 
-  - name: install httpd package and PHP
-    ansible.builtin.dnf:
-      update_cache: yes
-      name:
-        - httpd
-        - php
-      state: latest
-    when: ansible_os_family== "RedHat"
+    - name: Install httpd package and PHP
+      ansible.builtin.dnf:
+        update_cache: true
+        name:
+          - httpd
+          - php
+        state: latest
+      when: ansible_os_family == "RedHat"

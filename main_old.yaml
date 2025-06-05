@@ -29,9 +29,9 @@
 - name: change email address for admin
   tags: apache,fedora
   ansible.builtin.lineinfile:
-      path: /etc/httpd/conf/httpd.conf
-      regexp: '^ServerAdmin'
-      line: ServerAdmin poppy@puppyplayground.com
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^ServerAdmin'
+    line: ServerAdmin poppy@puppyplayground.com
   when: ansible_os_family == "RedHat"
   register: httpd
 
@@ -45,9 +45,9 @@
 - name: change email address for admin
   tags: apache,ubuntu
   ansible.builtin.lineinfile:
-      path: /etc/apache2/apache2.conf
-      regexp: '^ServerAdmin'
-      line: ServerAdmin poppy@puppyplayground.com 
+    path: /etc/apache2/apache2.conf
+    regexp: '^ServerAdmin'
+    line: ServerAdmin poppy@puppyplayground.com
   when: ansible_os_family == "Debian"
   register: apache2
 
@@ -65,6 +65,4 @@
     dest: /var/www/html/index.html
     owner: root
     group: root
-    mode: 0664
-    
-
+    mode: '0664'
